@@ -64,23 +64,7 @@ func (r *Router) addRoute(m, p, t string, fn Handle) {
 		fn(w, req, paramsFromHTTPRouter(p))
 	}
 
-	// TODO: Maybe let the subrouters do work too and only call them if
-	// needed
-	if r.parent != nil {
-		// We have a subrouter, let the main router handle it
-		r.getRoot().router.Handle(m, path, wf)
-	} else {
-		r.router.Handle(m, path, wf)
-	}
-}
-
-// getRoot returns the root router
-func (r *Router) getRoot() *Router {
-	if r.parent != nil {
-		return r.parent.getRoot()
-	}
-
-	return r
+	r.router.Handle(m, path, wf)
 }
 
 // Get adds a GET route
@@ -105,9 +89,11 @@ func (r *Router) Put(path, title string, fn Handle) {
 
 // Subrouter creates and returns a subrouter
 func (r *Router) Subrouter(path string) *Router {
-	sr := &Router{}
-	sr.index = make(map[string]string)
-	sr.prefix = r.subPath(path)
+	sr := &Router{
+		index:  make(map[string]string),
+		prefix: r.subPath(path),
+		router: r.router,
+	}
 
 	// Init relationships
 	r.children = append(r.children, sr)
