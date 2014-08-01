@@ -81,7 +81,7 @@ func (r *Router) Put(p, t string, fn Handle) {
 // TODO: Add PATCH, OPTIONS, HEAD?
 
 // Index returns a string map with the titles and urls of all GET routes
-func (r *Router) IndexGet() map[string]string {
+func (r *Router) Index() map[string]string {
 	// Sort
 	sorted := make(map[string]string)
 	var keys []string

@@ -43,12 +43,12 @@ func TestIndex(t *testing.T) {
 	r.Get("/bar", "bar_url", emptyHandler)
 	r.Post("/foo", "foo_url", emptyHandler)
 
-	out := r.IndexGet()
+	out := r.Index()
 	expected := map[string]string{
 		"bar_url":     "/bar",
 		"foo_bar_url": "/foo/bar",
 	}
 	if !reflect.DeepEqual(out, expected) {
-		t.Errorf("IndexGet should regurn %v, but did return %v", expected, out)
+		t.Errorf("Index should regurn %v, but did return %v", expected, out)
 	}
 }
