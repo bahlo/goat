@@ -123,7 +123,7 @@ I wanted to create a small, fast and reliable REST API server, which supports
 quick JSON and error output, good rooting and easy-to-use middleware.
 
 I have split the files after responsibility to make it easy for everyone to
-dive in (start with `goat.go`.
+dive in (start with `goat.go`).
 
 ## Feedback
 If you have problems, feel free to
