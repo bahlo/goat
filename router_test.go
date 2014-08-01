@@ -1,6 +1,7 @@
 package goat
 
 import (
+	"net/http"
 	"reflect"
 	"testing"
 )
@@ -69,4 +70,14 @@ func TestSubrouter(t *testing.T) {
 	if r.children[len(r.children)-1] != sr {
 		t.Errorf("Subrouter should add %v to children of %v, but didn't", sr, r)
 	}
+}
+
+func TestUse(t *testing.T) {
+	r := New()
+	mw := func(h http.Handler) http.Handler { return nil }
+	exp := []Middleware{mw}
+
+	r.Use(mw)
+
+	// TODO: Test function equality
 }

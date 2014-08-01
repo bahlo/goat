@@ -21,10 +21,16 @@ type Router struct {
 
 	// The router
 	router *httprouter.Router
+
+	// Middleware
+	middleware []Middleware
 }
 
 // Handle describes the function that should be used by handlers
 type Handle func(http.ResponseWriter, *http.Request, Params)
+
+// Middleware reprents a default middleware function
+type Middleware func(http.Handler) http.Handler
 
 // notFoundHandler handles (as you already know) the 404 error
 func (r *Router) notFoundHandler(w http.ResponseWriter, req *http.Request) {
@@ -100,6 +106,14 @@ func (r *Router) Subrouter(path string) *Router {
 	sr.parent = r
 
 	return sr
+}
+
+// Use adds middleware to the router
+func (r *Router) Use(middleware ...Middleware) {
+	if r.parent != nil {
+		panic("subrouters can't use middleware!")
+	}
+	r.middleware = append(r.middleware, middleware...)
 }
 
 // IndexHandler writes the index of all GET methods to the ResponseWriter
