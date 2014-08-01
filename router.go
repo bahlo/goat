@@ -15,7 +15,7 @@ type Router struct {
 
 // notFoundHandler handles (as you already know) the 404 error
 func (r *Router) notFoundHandler(w http.ResponseWriter, r *http.Request) {
-	// TODO: Implement notFoundHandler
+	WriteError(w, "404 Not Found")
 }
 
 // Use adds middleware(s) to the router
