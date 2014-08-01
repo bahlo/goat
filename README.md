@@ -8,25 +8,28 @@ _go-at_.
 package main
 
 import (
-        "net/http"
+    "net/http"
 
-        "github.com/bahlo/goat"
+    "github.com/bahlo/goat"
 )
 
+func notImplementedHandler(w http.ResponseWriter, r *http.Request, p goat.Params) {
+      goat.WriteError(w, "Not implemented")
+}
+
+func helloHandler(w http.ResponseWriter, r *http.Request, p goat.Params) {
+      goat.WriteJSON(w, map[string]string{
+          "hello": p["name"],
+      })
+}
+
 func main() {
-        r := goat.New()
+      r := goat.New()
 
-        r.Get("/user", "user_url", func(w http.ResponseWriter, r *http.Request, p goat.Params) {
-                goat.WriteError(w, "Not implemented")
-        })
+      r.Get("/user", "user_url", notImplementedHandler)
+      r.Get("/hello/:name", "hello_url", helloHandler)
 
-        r.Get("/hello/:name", "hello_url", func(w http.ResponseWriter, r *http.Request, p goat.Params) {
-                goat.WriteJSON(w, map[string]string{
-                        "hello": p["name"],
-                })
-        })
-
-        http.ListenAndServe(":8080", r)
+      http.ListenAndServe(":8080", r)
 }
 ```
 
@@ -39,9 +42,9 @@ func main() {
   [these](https://github.com/avelino/awesome-go#web-frameworks)
 
 ## Roadmap
-- [ ] Subrouters/Grouping
-- [ ] Middleware
-- [ ] Speed test
+* [ ] Subrouters/Grouping
+* [ ] Middleware
+* [ ] Speed test
 
 ## Credits
 Goat uses the blazing fast
