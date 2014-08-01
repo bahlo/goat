@@ -33,18 +33,10 @@ func main() {
 }
 ```
 
-## Features
-* Speed (more info on the way)
-* Helper functions for working with JSON (`WriteError`, `WriteJSON`)
-* An index generator to get an index like [this](https://api.github.com/)
-* Optimized for machines: No templates, static files, etc. (if you want this,
-  you'd be better off with one of
-  [these](https://github.com/avelino/awesome-go#web-frameworks)
-
 ## Roadmap
-* [ ] Subrouters/Grouping
-* [ ] Middleware
-* [ ] Speed test
+* [ ] Subrouters or Grouping
+* [ ] Middleware
+* [ ] Continous integration
 
 ## Credits
 Goat uses the blazing fast
