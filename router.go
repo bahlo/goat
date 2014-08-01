@@ -9,9 +9,14 @@ import (
 
 // Router represents a router
 type Router struct {
+	// The prefix, default: /
 	prefix string
+
+	// The index, maps titles to urls
+	index map[string]string
+
+	// The router
 	router *httprouter.Router
-	index  map[string]string
 }
 
 // Handle describes the function that should be used by handlers
@@ -59,26 +64,31 @@ func (r *Router) addRoute(m, p, t string, fn Handle) {
 }
 
 // Get adds a GET route
-func (r *Router) Get(p, t string, fn Handle) {
-	r.addRoute("GET", p, t, fn)
+func (r *Router) Get(path, title string, fn Handle) {
+	r.addRoute("GET", path, title, fn)
 }
 
 // Get adds a POST route
-func (r *Router) Post(p, t string, fn Handle) {
-	r.addRoute("POST", p, t, fn)
+func (r *Router) Post(path, title string, fn Handle) {
+	r.addRoute("POST", path, title, fn)
 }
 
 // Get adds a DELETE route
-func (r *Router) Delete(p, t string, fn Handle) {
-	r.addRoute("DELETE", p, t, fn)
+func (r *Router) Delete(path, title string, fn Handle) {
+	r.addRoute("DELETE", path, title, fn)
 }
 
 // Get adds a PUT route
-func (r *Router) Put(p, t string, fn Handle) {
-	r.addRoute("PUT", p, t, fn)
+func (r *Router) Put(path, title string, fn Handle) {
+	r.addRoute("PUT", path, title, fn)
 }
 
 // TODO: Add PATCH, OPTIONS, HEAD?
+
+// IndexHandler writes the index of all GET methods to the ResponseWriter
+func (r *Router) IndexHandler(w http.ResponseWriter, _ *http.Request, _ Params) {
+	WriteJSON(w, r.Index())
+}
 
 // Index returns a string map with the titles and urls of all GET routes
 func (r *Router) Index() map[string]string {

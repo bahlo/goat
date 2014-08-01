@@ -5,7 +5,7 @@ import "github.com/julienschmidt/httprouter"
 // Params represents the parameters of a request
 type Params map[string]string
 
-// Converts httprouter.Params to goat.Params
+// paramsFromHTTPRouter converts httprouter.Params to goat.Params
 func paramsFromHTTPRouter(hrps httprouter.Params) Params {
 	var ps = Params{}
 
