@@ -1,7 +1,7 @@
 # Goat
 
 Goat is a Go REST server. You can pronounce it like the _goat_, or
-_go-at_.
+_go-at_. Depends on how you like goats.
 
 ## Usage
 ```go
