@@ -112,8 +112,16 @@ func main() {
 * [x] Middleware
 * [ ] Continous integration
 
+## Philosophy
+I wanted to create a small, fast and reliable REST API server, which supports
+quick JSON and error output, good rooting and easy-to-use middleware.
+I have split the files after responsibility to make it easy for everyone to
+dive in (start with `goat.go`.
+
 ## Credits
-Thanks to Julien Schmidt for the amazing [httprouter](https://github.com/julienschmidt/httprouter) used in this project.
+Thanks to Julien Schmidt for the amazing
+[httprouter](https://github.com/julienschmidt/httprouter) used in this
+project.
 
 ## License
 This project is licensed unter MIT, for more information look into the LICENSE
