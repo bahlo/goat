@@ -75,7 +75,7 @@ func TestSubrouter(t *testing.T) {
 func TestUse(t *testing.T) {
 	r := New()
 	mw := func(h http.Handler) http.Handler { return nil }
-	exp := []Middleware{mw}
+	//exp := []Middleware{mw}
 
 	r.Use(mw)
 

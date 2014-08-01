@@ -116,6 +116,23 @@ func (r *Router) Use(middleware ...Middleware) {
 	r.middleware = append(r.middleware, middleware...)
 }
 
+// Run starts the server
+func (r *Router) Run(address string) error {
+	return http.ListenAndServe(address, r.chain())
+}
+
+// chain calls all middlewares and returns the final handler
+func (r *Router) chain() http.Handler {
+	var final http.Handler
+	final = r.router
+
+	for i := len(r.middleware) - 1; i >= 0; i-- {
+		final = r.middleware[i](final)
+	}
+
+	return final
+}
+
 // IndexHandler writes the index of all GET methods to the ResponseWriter
 func (r *Router) IndexHandler(w http.ResponseWriter, _ *http.Request, _ Params) {
 	WriteJSON(w, r.Index())
