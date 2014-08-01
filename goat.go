@@ -1,6 +1,11 @@
 package goat
 
-import "github.com/julienschmidt/httprouter"
+import (
+	"encoding/json"
+	"net/http"
+
+	"github.com/julienschmidt/httprouter"
+)
 
 // New creates a new Router and returns it
 func New() *Router {
@@ -11,4 +16,24 @@ func New() *Router {
 	r.router.NotFound = r.notFoundHandler
 
 	return r
+}
+
+// WriteError writes a string as JSON encoded error
+func WriteError(w http.ResponseWriter, code int, err string) {
+	w.WriteHeader(code)
+
+	WriteJSON(w, map[string]string{
+		"error": err,
+	})
+}
+
+// WriteJSON writes the given interface as JSON or returns an error
+func WriteJSON(w http.ResponseWriter, v interface{}) error {
+	b, err := json.MarshalIndent(v, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	w.Write(b)
+	return nil
 }
