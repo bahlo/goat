@@ -9,7 +9,6 @@ _go-at_. Depends on how you like goats.
   - [Subrouters](#subrouters)
   - [Indices](#indices)
   - [Middleware](#middleware)
-- [Roadmap](#roadmap)
 - [Philosophy](#philosophy)
 - [Fedback](#feedback)
 - [Credits](#credits)
@@ -112,11 +111,6 @@ func main() {
     r.Run(":8080")
 }
 ```
-
-## Roadmap
-* [x] Subrouters or Grouping
-* [x] Middleware
-* [ ] Continous integration
 
 ## Philosophy
 I wanted to create a small, fast and reliable REST API server, which supports
