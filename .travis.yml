@@ -1,0 +1,13 @@
+language: go
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+go:
+  - tip
+before_install:
+  - go get github.com/axw/gocov/gocov
+  - go get github.com/mattn/goveralls
+  - go get code.google.com/p/go.tools/cmd/cover
+script:
+  - $HOME/gopath/bin/goveralls -repotoken AkV7JNH7cHZ18wz5uanmFNsOMZAQptsMZ
