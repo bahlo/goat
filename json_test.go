@@ -29,7 +29,34 @@ func TestWriteError(t *testing.T) {
 	// Test body
 	if w.Body == nil {
 		t.Errorf("WriteError should set Body to %s, but didn't", json)
-	} else if bytes.Equal(w.Body.Bytes(), buf.Bytes()) {
+	} else if !bytes.Equal(w.Body.Bytes(), buf.Bytes()) {
 		t.Errorf("WriteError should set Body to %v, but did set it to %v", buf, w.Body)
+	}
+}
+
+func TestWriteJSON(t *testing.T) {
+	in := map[string]string{
+		"foo":   "bar",
+		"knock": "knock",
+	}
+	json := `{
+  "foo": "bar",
+  "knock": "knock"
+}
+`
+	buf := bytes.NewBufferString(json)
+
+	w := httptest.NewRecorder()
+	WriteJSON(w, in)
+
+	if w.Body == nil {
+		t.Errorf("WriteJSON should set the Body to %s, but didn't", json)
+	} else if !bytes.Equal(w.Body.Bytes(), buf.Bytes()) {
+		t.Errorf("WriteJSON set the Body to %v, but should set it to %v", buf, w.Body)
+	}
+
+	w = httptest.NewRecorder()
+	if err := WriteJSON(w, nil); err != nil {
+		t.Errorf("WriteJSON should return an error, but didn't")
 	}
 }
