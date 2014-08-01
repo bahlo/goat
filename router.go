@@ -9,6 +9,10 @@ import (
 
 // Router represents a router
 type Router struct {
+	// Tree structure
+	parent   *Router
+	children []*Router
+
 	// The prefix, default: /
 	prefix string
 
@@ -46,10 +50,10 @@ func (r *Router) subPath(p string) string {
 
 // addRoute adds a route to the index and passes it over to the httprouter
 func (r *Router) addRoute(m, p, t string, fn Handle) {
+
 	path := r.subPath(p)
 
 	// Add to index
-	// TODO: Only GET?
 	if len(t) > 0 && m == "GET" {
 		// TODO: Display total path including host
 		r.index[t] = path
@@ -83,7 +87,20 @@ func (r *Router) Put(path, title string, fn Handle) {
 	r.addRoute("PUT", path, title, fn)
 }
 
-// TODO: Add PATCH, OPTIONS, HEAD?
+// Subrouter creates and returns a subrouter
+func (r *Router) Subrouter(path string) *Router {
+	sr := &Router{
+		index:  make(map[string]string),
+		prefix: r.subPath(path),
+		router: r.router,
+	}
+
+	// Init relationships
+	r.children = append(r.children, sr)
+	sr.parent = r
+
+	return sr
+}
 
 // IndexHandler writes the index of all GET methods to the ResponseWriter
 func (r *Router) IndexHandler(w http.ResponseWriter, _ *http.Request, _ Params) {
@@ -92,15 +109,26 @@ func (r *Router) IndexHandler(w http.ResponseWriter, _ *http.Request, _ Params) 
 
 // Index returns a string map with the titles and urls of all GET routes
 func (r *Router) Index() map[string]string {
+	index := r.index
+
+	// Recursion
+	for _, sr := range r.children {
+		si := sr.Index()
+
+		for k, v := range si {
+			index[k] = v
+		}
+	}
+
 	// Sort
 	sorted := make(map[string]string)
 	var keys []string
-	for k := range r.index {
+	for k := range index {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
 	for _, k := range keys {
-		sorted[k] = r.index[k]
+		sorted[k] = index[k]
 	}
 
 	return sorted
