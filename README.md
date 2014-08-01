@@ -26,8 +26,12 @@ func helloHandler(w http.ResponseWriter, r *http.Request, p goat.Params) {
 func main() {
       r := goat.New()
 
-      r.Get("/user", "user_url", notImplementedHandler)
+      r.Get("/", "", r.IndexHandler)
       r.Get("/hello/:name", "hello_url", helloHandler)
+
+      sr := r.Subrouter("/user")
+      sr.Get("/login", "user_login_url", notImplementedHandler)
+      sr.Get("/logout", "user_logout_url", notImplementedHandler)
 
       http.ListenAndServe(":8080", r)
 }
