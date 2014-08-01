@@ -1,7 +1,6 @@
 package goat
 
 import (
-	"net/http"
 	"reflect"
 	"testing"
 )
@@ -37,23 +36,6 @@ func TestAddRoute(t *testing.T) {
 	}
 }
 
-func TestIndex(t *testing.T) {
-	r := New()
-
-	r.Get("/foo/bar", "foo_bar_url", emptyHandler)
-	r.Get("/bar", "bar_url", emptyHandler)
-	r.Post("/foo", "foo_url", emptyHandler)
-
-	out := r.Index()
-	expected := map[string]string{
-		"bar_url":     "/bar",
-		"foo_bar_url": "/foo/bar",
-	}
-	if !reflect.DeepEqual(out, expected) {
-		t.Errorf("Index should regurn %v, but did return %v", expected, out)
-	}
-}
-
 func TestSubrouter(t *testing.T) {
 	pre := "/user"
 	r := New()
@@ -70,14 +52,4 @@ func TestSubrouter(t *testing.T) {
 	if r.children[len(r.children)-1] != sr {
 		t.Errorf("Subrouter should add %v to children of %v, but didn't", sr, r)
 	}
-}
-
-func TestUse(t *testing.T) {
-	r := New()
-	mw := func(h http.Handler) http.Handler { return nil }
-	//exp := []Middleware{mw}
-
-	r.Use(mw)
-
-	// TODO: Test function equality
 }

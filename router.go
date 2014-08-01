@@ -2,7 +2,6 @@ package goat
 
 import (
 	"net/http"
-	"sort"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -29,29 +28,19 @@ type Router struct {
 // Handle describes the function that should be used by handlers
 type Handle func(http.ResponseWriter, *http.Request, Params)
 
-// Middleware reprents a default middleware function
-type Middleware func(http.Handler) http.Handler
-
-// notFoundHandler handles (as you already know) the 404 error
-func (r *Router) notFoundHandler(w http.ResponseWriter, req *http.Request) {
-	WriteError(w, 404, "404 Not Found")
-}
-
-// ServeHTTP calls the same method on the router
-func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-	r.router.ServeHTTP(w, req)
-}
-
-// subPath returns the prefix of the router + the given path and eliminates
-// duplicate slashes
-func (r *Router) subPath(p string) string {
-	pre := r.prefix
-
-	if (pre == "/" || pre[:len(pre)-1] == "/") && p[:1] == "/" {
-		pre = pre[:len(pre)-1]
+// Subrouter creates and returns a subrouter
+func (r *Router) Subrouter(path string) *Router {
+	sr := &Router{
+		index:  make(map[string]string),
+		prefix: r.subPath(path),
+		router: r.router,
 	}
 
-	return pre + p
+	// Init relationships
+	r.children = append(r.children, sr)
+	sr.parent = r
+
+	return sr
 }
 
 // addRoute adds a route to the index and passes it over to the httprouter
@@ -93,74 +82,19 @@ func (r *Router) Put(path, title string, fn Handle) {
 	r.addRoute("PUT", path, title, fn)
 }
 
-// Subrouter creates and returns a subrouter
-func (r *Router) Subrouter(path string) *Router {
-	sr := &Router{
-		index:  make(map[string]string),
-		prefix: r.subPath(path),
-		router: r.router,
-	}
-
-	// Init relationships
-	r.children = append(r.children, sr)
-	sr.parent = r
-
-	return sr
+// notFoundHandler handles (as you already know) the 404 error
+func (r *Router) notFoundHandler(w http.ResponseWriter, req *http.Request) {
+	WriteError(w, 404, "404 Not Found")
 }
 
-// Use adds middleware to the router
-func (r *Router) Use(middleware ...Middleware) {
-	if r.parent != nil {
-		panic("subrouters can't use middleware!")
-	}
-	r.middleware = append(r.middleware, middleware...)
-}
+// subPath returns the prefix of the router + the given path and eliminates
+// duplicate slashes
+func (r *Router) subPath(p string) string {
+	pre := r.prefix
 
-// Run starts the server
-func (r *Router) Run(address string) error {
-	return http.ListenAndServe(address, r.chain())
-}
-
-// chain calls all middlewares and returns the final handler
-func (r *Router) chain() http.Handler {
-	var final http.Handler
-	final = r.router
-
-	for i := len(r.middleware) - 1; i >= 0; i-- {
-		final = r.middleware[i](final)
+	if (pre == "/" || pre[:len(pre)-1] == "/") && p[:1] == "/" {
+		pre = pre[:len(pre)-1]
 	}
 
-	return final
-}
-
-// IndexHandler writes the index of all GET methods to the ResponseWriter
-func (r *Router) IndexHandler(w http.ResponseWriter, _ *http.Request, _ Params) {
-	WriteJSON(w, r.Index())
-}
-
-// Index returns a string map with the titles and urls of all GET routes
-func (r *Router) Index() map[string]string {
-	index := r.index
-
-	// Recursion
-	for _, sr := range r.children {
-		si := sr.Index()
-
-		for k, v := range si {
-			index[k] = v
-		}
-	}
-
-	// Sort
-	sorted := make(map[string]string)
-	var keys []string
-	for k := range index {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
-	for _, k := range keys {
-		sorted[k] = index[k]
-	}
-
-	return sorted
+	return pre + p
 }
