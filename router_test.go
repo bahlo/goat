@@ -52,3 +52,21 @@ func TestIndex(t *testing.T) {
 		t.Errorf("Index should regurn %v, but did return %v", expected, out)
 	}
 }
+
+func TestSubrouter(t *testing.T) {
+	pre := "/user"
+	r := New()
+	sr := r.Subrouter(pre)
+
+	if sr.prefix != pre {
+		t.Errorf("Subrouter should set the prefix %s, but did set %s", pre, sr.prefix)
+	}
+
+	if sr.parent != r {
+		t.Errorf("Subrouter should set %v as parent router, but did set %v", r, sr.parent)
+	}
+
+	if r.children[len(r.children)-1] != sr {
+		t.Errorf("Subrouter should add %v to children of %v, but didn't", sr, r)
+	}
+}

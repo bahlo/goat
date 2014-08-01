@@ -9,6 +9,10 @@ import (
 
 // Router represents a router
 type Router struct {
+	// Tree structure
+	parent   *Router
+	children []*Router
+
 	// The prefix, default: /
 	prefix string
 
@@ -83,7 +87,17 @@ func (r *Router) Put(path, title string, fn Handle) {
 	r.addRoute("PUT", path, title, fn)
 }
 
-// TODO: Add PATCH, OPTIONS, HEAD?
+// Subrouter creates and returns a subrouter
+func (r *Router) Subrouter(path string) *Router {
+	sr := New()
+	sr.prefix = path
+
+	// Init relationships
+	r.children = append(r.children, sr)
+	sr.parent = r
+
+	return sr
+}
 
 // IndexHandler writes the index of all GET methods to the ResponseWriter
 func (r *Router) IndexHandler(w http.ResponseWriter, _ *http.Request, _ Params) {
