@@ -6,14 +6,11 @@ import (
 )
 
 // WriteError writes a string as JSON encoded error
-//
-// Example output:
-// {
-//   "error": "User not Found"
-// }
-func WriteError(w http.ResponseWriter, e string) {
+func WriteError(w http.ResponseWriter, code int, err string) {
+	w.WriteHeader(code)
+
 	WriteJSON(w, map[string]string{
-		"error": e,
+		"error": err,
 	})
 }
 
