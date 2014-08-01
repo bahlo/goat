@@ -14,6 +14,9 @@ type Router struct {
 	index  map[string]string
 }
 
+// Handle describes the function that should be used by handlers
+type Handle func(http.ResponseWriter, *http.Request, Params)
+
 // notFoundHandler handles (as you already know) the 404 error
 func (r *Router) notFoundHandler(w http.ResponseWriter, req *http.Request) {
 	WriteError(w, "404 Not Found")
@@ -37,7 +40,7 @@ func (r *Router) subPath(p string) string {
 }
 
 // addRoute adds a route to the index and passes it over to the httprouter
-func (r *Router) addRoute(m, p, t string, fn httprouter.Handle) {
+func (r *Router) addRoute(m, p, t string, fn Handle) {
 	path := r.subPath(p)
 
 	// Add to index
@@ -47,26 +50,31 @@ func (r *Router) addRoute(m, p, t string, fn httprouter.Handle) {
 		r.index[t] = path
 	}
 
-	r.router.Handle(m, path, fn)
+	// Wrapper function to bypass the parameter problem
+	wf := func(w http.ResponseWriter, req *http.Request, p httprouter.Params) {
+		fn(w, req, paramsFromHTTPRouter(p))
+	}
+
+	r.router.Handle(m, path, wf)
 }
 
 // Get adds a GET route
-func (r *Router) Get(p, t string, fn httprouter.Handle) {
+func (r *Router) Get(p, t string, fn Handle) {
 	r.addRoute("GET", p, t, fn)
 }
 
 // Get adds a POST route
-func (r *Router) Post(p, t string, fn httprouter.Handle) {
+func (r *Router) Post(p, t string, fn Handle) {
 	r.addRoute("POST", p, t, fn)
 }
 
 // Get adds a DELETE route
-func (r *Router) Delete(p, t string, fn httprouter.Handle) {
+func (r *Router) Delete(p, t string, fn Handle) {
 	r.addRoute("DELETE", p, t, fn)
 }
 
 // Get adds a PUT route
-func (r *Router) Put(p, t string, fn httprouter.Handle) {
+func (r *Router) Put(p, t string, fn Handle) {
 	r.addRoute("PUT", p, t, fn)
 }
 

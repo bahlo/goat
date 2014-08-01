@@ -3,11 +3,9 @@ package goat
 import (
 	"reflect"
 	"testing"
-
-	"github.com/julienschmidt/httprouter"
 )
 
-var emptyHandler httprouter.Handle
+var emptyHandler Handle
 
 func TestSubPath(t *testing.T) {
 	r := New()
