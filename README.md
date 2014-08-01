@@ -14,7 +14,7 @@ import (
 )
 
 func notImplementedHandler(w http.ResponseWriter, r *http.Request, p goat.Params) {
-      goat.WriteError(w, "Not implemented")
+      goat.WriteError(w, 500, "Not implemented")
 }
 
 func helloHandler(w http.ResponseWriter, r *http.Request, p goat.Params) {
@@ -36,6 +36,23 @@ func main() {
       http.ListenAndServe(":8080", r)
 }
 ```
+
+## Features
+### Groups
+You can group the routes by a prefix. This can have a serious impact on the
+readability of your code.
+
+### Indices
+Every route can have a description (like `user_login_url`). These can be used
+to automagically generate an API index (like [this](https://api.github.com)).
+If you want to hide specific methods, just provide an empty string.
+
+**Note:** Indices are only supported for `GET` requests. Open an issue, if you
+want them on other methods, too
+
+### Helpers
+You can quickly pretty print JSON to a `http.ResponseWriter` using
+`goat.WriteJSON` or `goat.WriteError`.
 
 ## Roadmap
 * [x] Subrouters or Grouping

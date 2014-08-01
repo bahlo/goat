@@ -1,6 +1,10 @@
 package goat
 
-import "github.com/julienschmidt/httprouter"
+import (
+	"net/http"
+
+	"github.com/julienschmidt/httprouter"
+)
 
 // New creates a new Router and returns it
 func New() *Router {
@@ -11,4 +15,9 @@ func New() *Router {
 	r.router.NotFound = r.notFoundHandler
 
 	return r
+}
+
+// Run starts the server
+func (r *Router) Run(address string) error {
+	return http.ListenAndServe(address, r.chain())
 }
