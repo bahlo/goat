@@ -37,3 +37,20 @@ func TestAddRoute(t *testing.T) {
 		t.Errorf("addRoute should modify Router.index to %v, but did modify it to %v", expected, r.index)
 	}
 }
+
+func TestIndex(t *testing.T) {
+	r := New()
+
+	r.Get("/foo/bar", "foo_bar_url", emptyHandler)
+	r.Get("/bar", "bar_url", emptyHandler)
+	r.Post("/foo", "foo_url", emptyHandler)
+
+	out := r.IndexGet()
+	expected := map[string]string{
+		"bar_url":     "/bar",
+		"foo_bar_url": "/foo/bar",
+	}
+	if !reflect.DeepEqual(out, expected) {
+		t.Errorf("IndexGet should regurn %v, but did return %v", expected, out)
+	}
+}

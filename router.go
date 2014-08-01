@@ -2,6 +2,7 @@ package goat
 
 import (
 	"net/http"
+	"sort"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -40,7 +41,8 @@ func (r *Router) addRoute(m, p, t string, fn httprouter.Handle) {
 	path := r.subPath(p)
 
 	// Add to index
-	if len(t) > 0 {
+	// TODO: Only GET?
+	if len(t) > 0 && m == "GET" {
 		// TODO: Display total path including host
 		r.index[t] = path
 	}
@@ -69,3 +71,19 @@ func (r *Router) Put(p, t string, fn httprouter.Handle) {
 }
 
 // TODO: Add PATCH, OPTIONS, HEAD?
+
+// Index returns a string map with the titles and urls of all GET routes
+func (r *Router) IndexGet() map[string]string {
+	// Sort
+	sorted := make(map[string]string)
+	var keys []string
+	for k := range r.index {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	for _, k := range keys {
+		sorted[k] = r.index[k]
+	}
+
+	return sorted
+}
