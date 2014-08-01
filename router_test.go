@@ -1,6 +1,7 @@
 package goat
 
 import (
+	"net/http/httptest"
 	"reflect"
 	"testing"
 )
@@ -51,5 +52,25 @@ func TestSubrouter(t *testing.T) {
 
 	if r.children[len(r.children)-1] != sr {
 		t.Errorf("Subrouter should add %v to children of %v, but didn't", sr, r)
+	}
+}
+
+func TestNotFoundHandler(t *testing.T) {
+	w := httptest.NewRecorder()
+	r := New()
+
+	r.notFoundHandler(w, nil)
+
+	expCode := 404
+	if w.Code != expCode {
+		t.Errorf("NotFoundHandler should set the status code to %i, but didn't", expCode)
+	}
+
+	expBody := `{
+  "error": "404 Not Found"
+}`
+	body := string(w.Body.Bytes())
+	if body != expBody {
+		t.Errorf("NotFoundHandler set the Body to %s, but should set it to %s", body, expBody)
 	}
 }
