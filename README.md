@@ -38,7 +38,7 @@ func main() {
 ```
 
 ## Roadmap
-* [ ] Subrouters or Grouping
+* [x] Subrouters or Grouping
 * [ ] Middleware
 * [ ] Continous integration
 
