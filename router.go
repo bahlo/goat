@@ -33,8 +33,8 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 func (r *Router) subPath(p string) string {
 	pre := r.prefix
 
-	if pre[:len(pre)-1] != "/" && p[:1] != "/" {
-		pre += "/"
+	if (pre == "/" || pre[:len(pre)-1] == "/") && p[:1] == "/" {
+		pre = pre[:len(pre)-1]
 	}
 
 	return pre + p
