@@ -1,6 +1,9 @@
 package goat
 
-import "net/http"
+import (
+	"encoding/json"
+	"net/http"
+)
 
 // WriteError writes a string as JSON encoded error
 //
@@ -15,8 +18,8 @@ func WriteError(w http.ResponseWriter, e string) {
 }
 
 // WriteJSON writes the given interface as JSON or returns an error
-func WriteJSON(w http.ReponseWriter, v interface{}) err {
-	b, err := MarshalIndent(v, "", "  ")
+func WriteJSON(w http.ResponseWriter, v interface{}) error {
+	b, err := json.MarshalIndent(v, "", "  ")
 	if err != nil {
 		return err
 	}
