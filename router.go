@@ -28,7 +28,7 @@ type Handle func(http.ResponseWriter, *http.Request, Params)
 
 // notFoundHandler handles (as you already know) the 404 error
 func (r *Router) notFoundHandler(w http.ResponseWriter, req *http.Request) {
-	WriteError(w, "404 Not Found")
+	WriteError(w, 404, "404 Not Found")
 }
 
 // ServeHTTP calls the same method on the router
