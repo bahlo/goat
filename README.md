@@ -1,4 +1,4 @@
-# Goat
+# Goat [![GoDoc](https://godoc.org/github.com/bahlo/goat?status.png)](https://godoc.org/github.com/bahlo/goat) [![Build Status](https://secure.travis-ci.org/bahlo/goat.png?branch=master)](https://travis-ci.org/bahlo/goat) [![Coverage Status](https://coveralls.io/repos/bahlo/goat/badge.png?branch=master)](https://coveralls.io/r/bahlo/goat?branch=master)
 
 Goat is a Go REST server. You can pronounce it like the _goat_, or
 _go-at_. Depends on how you like goats.
@@ -9,7 +9,6 @@ _go-at_. Depends on how you like goats.
   - [Subrouters](#subrouters)
   - [Indices](#indices)
   - [Middleware](#middleware)
-- [Roadmap](#roadmap)
 - [Philosophy](#philosophy)
 - [Fedback](#feedback)
 - [Credits](#credits)
@@ -113,17 +112,12 @@ func main() {
 }
 ```
 
-## Roadmap
-* [x] Subrouters or Grouping
-* [x] Middleware
-* [ ] Continous integration
-
 ## Philosophy
 I wanted to create a small, fast and reliable REST API server, which supports
 quick JSON and error output, good rooting and easy-to-use middleware.
 
 I have split the files after responsibility to make it easy for everyone to
-dive in (start with `goat.go`.
+dive in (start with `goat.go`).
 
 ## Feedback
 If you have problems, feel free to
