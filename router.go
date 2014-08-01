@@ -64,6 +64,8 @@ func (r *Router) addRoute(m, p, t string, fn Handle) {
 		fn(w, req, paramsFromHTTPRouter(p))
 	}
 
+	// TODO: Maybe let the subrouters do work too and only call them if
+	// needed
 	if r.parent != nil {
 		// We have a subrouter, let the main router handle it
 		r.parent.router.Handle(m, path, wf)
@@ -112,15 +114,26 @@ func (r *Router) IndexHandler(w http.ResponseWriter, _ *http.Request, _ Params) 
 
 // Index returns a string map with the titles and urls of all GET routes
 func (r *Router) Index() map[string]string {
+	index := r.index
+
+	// Recursion
+	for _, sr := range r.children {
+		si := sr.Index()
+
+		for k, v := range si {
+			index[k] = v
+		}
+	}
+
 	// Sort
 	sorted := make(map[string]string)
 	var keys []string
-	for k := range r.index {
+	for k := range index {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
 	for _, k := range keys {
-		sorted[k] = r.index[k]
+		sorted[k] = index[k]
 	}
 
 	return sorted
