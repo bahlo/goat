@@ -50,10 +50,10 @@ func (r *Router) subPath(p string) string {
 
 // addRoute adds a route to the index and passes it over to the httprouter
 func (r *Router) addRoute(m, p, t string, fn Handle) {
+
 	path := r.subPath(p)
 
 	// Add to index
-	// TODO: Only GET?
 	if len(t) > 0 && m == "GET" {
 		// TODO: Display total path including host
 		r.index[t] = path
@@ -64,7 +64,12 @@ func (r *Router) addRoute(m, p, t string, fn Handle) {
 		fn(w, req, paramsFromHTTPRouter(p))
 	}
 
-	r.router.Handle(m, path, wf)
+	if r.parent != nil {
+		// We have a subrouter, let the main router handle it
+		r.parent.router.Handle(m, path, wf)
+	} else {
+		r.router.Handle(m, path, wf)
+	}
 }
 
 // Get adds a GET route
@@ -89,8 +94,9 @@ func (r *Router) Put(path, title string, fn Handle) {
 
 // Subrouter creates and returns a subrouter
 func (r *Router) Subrouter(path string) *Router {
-	sr := New()
-	sr.prefix = path
+	sr := &Router{}
+	sr.index = make(map[string]string)
+	sr.prefix = r.subPath(path)
 
 	// Init relationships
 	r.children = append(r.children, sr)
