@@ -16,15 +16,15 @@ import (
 func main() {
         r := goat.New()
 
-        r.Get("/user", "user_url", func(w http.ResponseWriter, r *http.Request, p goat.Params) {
+        r.Get("/user", "user_url", func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
                 goat.WriteError(w, "Not implemented")
-        }
+        })
 
-        r.Get("/hello/:name", "hello_url", func(w http.ResponseWriter, r *http.Request, p goat.Params) {
+        r.Get("/hello/:name", "hello_url", func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
                 goat.WriteJSON(w, map[string]string{
-                        "hello": p.ByName("name")
-                }
-        }
+                        "hello": p.ByName("name"),
+                })
+        })
 
         http.ListenAndServe(":8080", r)
 }

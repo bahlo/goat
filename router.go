@@ -13,11 +13,6 @@ type Router struct {
 	index  map[string]string
 }
 
-// Params is a wrapper around httprouter.Params to not confuse people
-type Params struct {
-	*httprouter.Params
-}
-
 // notFoundHandler handles (as you already know) the 404 error
 func (r *Router) notFoundHandler(w http.ResponseWriter, req *http.Request) {
 	WriteError(w, "404 Not Found")
