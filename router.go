@@ -68,10 +68,19 @@ func (r *Router) addRoute(m, p, t string, fn Handle) {
 	// needed
 	if r.parent != nil {
 		// We have a subrouter, let the main router handle it
-		r.parent.router.Handle(m, path, wf)
+		r.getRoot().router.Handle(m, path, wf)
 	} else {
 		r.router.Handle(m, path, wf)
 	}
+}
+
+// getRoot returns the root router
+func (r *Router) getRoot() *Router {
+	if r.parent != nil {
+		return r.parent.getRoot()
+	}
+
+	return r
 }
 
 // Get adds a GET route
