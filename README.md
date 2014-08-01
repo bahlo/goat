@@ -5,14 +5,20 @@ _go-at_. Depends on how you like goats.
 
 ## Contents
 - [Usage](#usage)
+  - [Parameters](#parameters)
   - [Subrouters](#subrouters)
   - [Indices](#indices)
   - [Middleware](#middleware)
 - [Roadmap](#roadmap)
+- [Philosophy](#philosophy)
+- [Fedback](#feedback)
 - [Credits](#credits)
 - [License](#license)
 
 ## Usage
+### Parameters
+You can use named parameters and access them through the given `goat.Params`,
+wich you can treat as any `map[string]map`.
 ```go
 package main
 
@@ -115,8 +121,14 @@ func main() {
 ## Philosophy
 I wanted to create a small, fast and reliable REST API server, which supports
 quick JSON and error output, good rooting and easy-to-use middleware.
+
 I have split the files after responsibility to make it easy for everyone to
 dive in (start with `goat.go`.
+
+## Feedback
+If you have problems, feel free to
+[create an issue](https://github.com/bahlo/goat/issues) or drop me an email
+at <hallo@arne.me>!
 
 ## Credits
 Thanks to Julien Schmidt for the amazing
