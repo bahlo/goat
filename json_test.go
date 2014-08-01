@@ -57,7 +57,7 @@ func TestWriteJSON(t *testing.T) {
 
 	// Test error
 	w = httptest.NewRecorder()
-	if err := WriteJSON(w, nil); err != nil {
+	if err := WriteJSON(w, WriteJSON); err == nil {
 		t.Errorf("WriteJSON should return an error, but didn't")
 	}
 }
