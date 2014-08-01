@@ -38,6 +38,11 @@ func main() {
   you'd be better off with one of
   [these](https://github.com/avelino/awesome-go#web-frameworks)
 
+## Roadmap
+- [ ] Subrouters/Grouping
+- [ ] Middleware
+- [ ] Speed test
+
 ## Credits
 Goat uses the blazing fast
 [httprouter](https://github.com/julienschmidt/httprouter) from Julien Schmidt,
