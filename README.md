@@ -1,7 +1,7 @@
 # Goat [![GoDoc](https://godoc.org/github.com/bahlo/goat?status.png)](https://godoc.org/github.com/bahlo/goat) [![Build Status](https://secure.travis-ci.org/bahlo/goat.png?branch=master)](https://travis-ci.org/bahlo/goat) [![Coverage Status](https://coveralls.io/repos/bahlo/goat/badge.png?branch=master)](https://coveralls.io/r/bahlo/goat?branch=master)
 
-Goat is a Go REST server. You can pronounce it like the _goat_, or
-_go-at_. Depends on how you like goats.
+Goat is a minimalistic REST API server in Go. You can pronounce it like the
+_goat_, or _go-at_. Depends on how you like goats.
 
 ## Contents
 - [Usage](#usage)
