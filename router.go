@@ -9,6 +9,7 @@ import (
 // Router represents a router
 type Router struct {
 	middleware []Middleware
+	prefix     string
 	router     *httprouter.Router
 }
 
