@@ -16,8 +16,8 @@ _goat_, or _go-at_. Depends on how you like goats.
 
 ## Usage
 ### Parameters
-You can use named parameters and access them through the given `goat.Params`,
-wich you can treat as any `map[string]map`.
+You can use named parameters and access them through `goat.Params`,
+wich you can treat as any `map[string]string`.
 ```go
 package main
 
@@ -93,8 +93,10 @@ The above example would return the following response on `/`:
 want them on other methods, too
 
 ### Middleware
-You can easily include any middleware you like. Important is, that it's in the
-following format:
+You can easily include any middleware you like. A great guide to middleware
+is found
+[here](https://github.com/julienschmidt/httprouter#where-can-i-find-middleware-x).
+Important is, that it's in the following format:
 ```go
 func(http.Handler) http.Handler
 ```
