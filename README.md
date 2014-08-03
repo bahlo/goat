@@ -108,7 +108,7 @@ func main() {
     r := goat.New()
 
     r.Get("/hello/:name", "hello_url", helloHandler)
-    r.Use(myMiddleWare, myOtherMiddleWare)
+    r.Use(loggerMiddleware, gzipMiddleware)
 
     r.Run(":8080")
 }
