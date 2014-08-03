@@ -21,3 +21,8 @@ func New() *Router {
 func (r *Router) Run(address string) error {
 	return http.ListenAndServe(address, r.chain())
 }
+
+// RunTLS starts the server, but expects HTTPS connections
+func (r *Router) RunTLS(addr, certFile, keyFile string) error {
+	return http.ListenAndServeTLS(addr, certFile, keyFile, r.chain())
+}

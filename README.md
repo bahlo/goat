@@ -16,8 +16,8 @@ _goat_, or _go-at_. Depends on how you like goats.
 
 ## Usage
 ### Parameters
-You can use named parameters and access them through the given `goat.Params`,
-wich you can treat as any `map[string]map`.
+You can use named parameters and access them through `goat.Params`,
+wich you can treat as any `map[string]string`.
 ```go
 package main
 
@@ -47,6 +47,7 @@ You can create subrouters to simplify your code
 ```go
 func main() {
     r := goat.New()
+
     r.Get("/hello/:name", "hello_url", helloHandler)
 
     sr := r.Subrouter("/user")
@@ -93,8 +94,10 @@ The above example would return the following response on `/`:
 want them on other methods, too
 
 ### Middleware
-You can easily include any middleware you like. Important is, that it's in the
-following format:
+You can easily include any middleware you like. A great guide to middleware
+is found
+[here](https://github.com/julienschmidt/httprouter#where-can-i-find-middleware-x).
+Important is, that it's in the following format:
 ```go
 func(http.Handler) http.Handler
 ```
@@ -105,8 +108,34 @@ func main() {
     r := goat.New()
 
     r.Get("/hello/:name", "hello_url", helloHandler)
+    r.Use(loggerMiddleware, gzipMiddleware)
 
-    r.Use(myMiddleWare, myOtherMiddleWare)
+    r.Run(":8080")
+}
+```
+
+#### Wrapping middleware
+Sometimes middleware isn't in the required format, so you have to build a
+wrapper around it. This example shows a wrapper around
+`handlers.CombinedLoggingHandler` from the
+[Gorilla handlers](http://www.gorillatoolkit.org/pkg/handlers):
+
+```go
+func loggerMiddleware(h http.Handler) http.Handler {
+    // Create logfile (you should check for errors)
+    f, _ := os.Create("api.log")
+    return handlers.CombinedLoggingHandler(f, h)
+}
+```
+
+You can now safely use the middleware in Goat:
+
+```go
+func main() {
+    r := goat.New()
+
+    r.Get("/hello/:name", "hello_url", helloHandler)
+    r.Use(loggerMiddleware)
 
     r.Run(":8080")
 }
