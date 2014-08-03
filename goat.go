@@ -17,6 +17,12 @@ func New() *Router {
 	return r
 }
 
+// ServeHTTP implements http.Handler
+func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	h := r.chain()
+	h.ServeHTTP(w, req)
+}
+
 // Run starts the server
 func (r *Router) Run(address string) error {
 	return http.ListenAndServe(address, r.chain())
