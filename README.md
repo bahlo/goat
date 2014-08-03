@@ -47,6 +47,7 @@ You can create subrouters to simplify your code
 ```go
 func main() {
     r := goat.New()
+
     r.Get("/hello/:name", "hello_url", helloHandler)
 
     sr := r.Subrouter("/user")
@@ -107,7 +108,6 @@ func main() {
     r := goat.New()
 
     r.Get("/hello/:name", "hello_url", helloHandler)
-
     r.Use(myMiddleWare, myOtherMiddleWare)
 
     r.Run(":8080")
@@ -135,7 +135,6 @@ func main() {
     r := goat.New()
 
     r.Get("/hello/:name", "hello_url", helloHandler)
-
     r.Use(loggerMiddleware)
 
     r.Run(":8080")
