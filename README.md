@@ -114,6 +114,34 @@ func main() {
 }
 ```
 
+#### Wrapping middleware
+Sometimes middleware isn't in the required format, so you have to build a
+wrapper around it. This example shows a wrapper around
+`handlers.CombinedLoggingHandler` from the
+[Gorilla handlers](http://www.gorillatoolkit.org/pkg/handlers):
+
+```go
+func loggerMiddleware(h http.Handler) http.Handler {
+    // Create logfile (you should check for errors)
+    f, _ := os.Create("api.log")
+    return handlers.CombinedLoggingHandler(f, h)
+}
+```
+
+You can now safely use the middleware in Goat:
+
+```go
+func main() {
+    r := goat.New()
+
+    r.Get("/hello/:name", "hello_url", helloHandler)
+
+    r.Use(loggerMiddleware)
+
+    r.Run(":8080")
+}
+```
+
 ## Philosophy
 I wanted to create a small, fast and reliable REST API server, which supports
 quick JSON and error output, good rooting and easy-to-use middleware.
