@@ -67,19 +67,24 @@ func (r *Router) Get(path, title string, fn Handle) {
 	r.addRoute("GET", path, title, fn)
 }
 
-// Get adds a POST route
+// Post adds a POST route
 func (r *Router) Post(path, title string, fn Handle) {
 	r.addRoute("POST", path, title, fn)
 }
 
-// Get adds a DELETE route
+// Delete adds a DELETE route
 func (r *Router) Delete(path, title string, fn Handle) {
 	r.addRoute("DELETE", path, title, fn)
 }
 
-// Get adds a PUT route
+// Put adds a PUT route
 func (r *Router) Put(path, title string, fn Handle) {
 	r.addRoute("PUT", path, title, fn)
+}
+
+// Options adds a OPTIONS route
+func (r *Router) Options(path, title string, fn Handle) {
+	r.addRoute("OPTIONS", path, title, fn)
 }
 
 // notFoundHandler handles (as you already know) the 404 error
