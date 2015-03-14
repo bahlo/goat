@@ -61,3 +61,33 @@ func TestWriteJSON(t *testing.T) {
 		t.Errorf("WriteJSON should return an error, but didn't")
 	}
 }
+
+func TestWriteJSONWithStatus(t *testing.T) {
+	// in
+	code := 201
+	in := map[string]interface{}{
+		"foo": "bar",
+		"bar": "foo",
+	}
+	json := `{
+  "foo": "bar",
+  "bar": "foo"
+}
+`
+	buf := bytes.NewBufferString(json)
+
+	w := httptest.NewRecorder()
+	WriteJSONWithStatus(w, code, in)
+
+	// test code
+	if w.Code != code {
+		t.Errorf("WriteJSONWithStatus should set Code to %i, but did set it to %i", code, w.Code)
+	}
+
+	// test body
+	if w.Body == nil {
+		t.Errorf("WriteJSONWithStatus should set the Body to %s, but didn't", json)
+	} else if string(w.Body.Bytes()) == string(buf.Bytes()) {
+		t.Errorf("WriteJSONWithStatus set the Body to %v, but should set it to %v", buf, w.Body)
+	}
+}
