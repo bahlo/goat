@@ -12,7 +12,7 @@ func New() *Router {
 	r.index = make(map[string]string)
 	r.prefix = "/"
 	r.router = httprouter.New()
-	r.router.NotFound = r.notFoundHandler
+	r.router.NotFound = http.HandlerFunc(r.notFoundHandler)
 
 	return r
 }
