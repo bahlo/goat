@@ -1,6 +1,7 @@
 # Contributing
 
-So you want to contribute to Goat? Great! :party:
+So you want to contribute to Goat? Great! :tada:
+
 Here are a few guidelines when it comes to Pull Requests.
 
 ## Go
@@ -30,4 +31,5 @@ Here are a few guidelines when it comes to Pull Requests.
     * :arrow_up: `:arrow_up:` when upgrading dependencies
     * :arrow_down: `:arrow_down:` when downgrading dependencies
     * :shirt: `:shirt:` when removing linter warnings
+
 Thank you! :heart:
