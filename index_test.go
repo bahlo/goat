@@ -13,10 +13,14 @@ func TestIndex(t *testing.T) {
 	r.Get("/bar", "bar_url", emptyHandler)
 	r.Post("/foo", "foo_url", emptyHandler)
 
+	sr := r.Subrouter("sub")
+	sr.Get("/", "sub_url", emptyHandler)
+
 	out := r.Index()
 	expected := map[string]string{
 		"bar_url":     "/bar",
 		"foo_bar_url": "/foo/bar",
+		"sub_url":     "/sub/",
 	}
 	if !reflect.DeepEqual(out, expected) {
 		t.Errorf("Index should return %v, but did return %v", expected, out)
