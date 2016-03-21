@@ -25,3 +25,11 @@ func WriteJSON(w http.ResponseWriter, v interface{}) error {
 	w.Write(b)
 	return nil
 }
+
+// WriteJSONWithStatus writes the given statuscode into the header and the
+// given interface as JSON  or returns an error
+func WriteJSONWithStatus(w http.ResponseWriter, code int, v interface{}) error {
+	w.WriteHeader(code)
+
+	return WriteJSON(w, v)
+}
