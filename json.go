@@ -7,6 +7,7 @@ import (
 
 // WriteError writes a string as JSON encoded error
 func WriteError(w http.ResponseWriter, code int, err string) {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(code)
 
 	WriteJSON(w, map[string]string{
@@ -29,6 +30,7 @@ func WriteJSON(w http.ResponseWriter, v interface{}) error {
 // WriteJSONWithStatus writes the given statuscode into the header and the
 // given interface as JSON  or returns an error
 func WriteJSONWithStatus(w http.ResponseWriter, code int, v interface{}) error {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(code)
 
 	return WriteJSON(w, v)
