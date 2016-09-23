@@ -10,7 +10,7 @@ func (r *Router) IndexHandler(w http.ResponseWriter, _ *http.Request, _ Params) 
 	WriteJSON(w, r.Index())
 }
 
-// Index returns a string map with the titles and urls of all GET routes
+// Index returns a string map with the titles and urls of all routes
 func (r *Router) Index() map[string]string {
 	index := r.index
 

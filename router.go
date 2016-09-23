@@ -49,7 +49,7 @@ func (r *Router) addRoute(m, p, t string, fn Handle) {
 	path := r.subPath(p)
 
 	// Add to index
-	if len(t) > 0 && m == "GET" {
+	if len(t) > 0 {
 		// TODO: Display total path including host
 		r.index[t] = path
 	}

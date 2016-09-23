@@ -18,6 +18,7 @@ func TestIndex(t *testing.T) {
 
 	out := r.Index()
 	expected := map[string]string{
+		"foo_url":     "/foo",
 		"bar_url":     "/bar",
 		"foo_bar_url": "/foo/bar",
 		"sub_url":     "/sub/",
@@ -39,7 +40,8 @@ func TestIndexHandler(t *testing.T) {
 
 	expected := `{
   "bar_url": "/bar",
-  "foo_bar_url": "/foo/bar"
+  "foo_bar_url": "/foo/bar",
+  "foo_url": "/foo"
 }`
 	body := string(w.Body.Bytes())
 
