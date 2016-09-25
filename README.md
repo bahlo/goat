@@ -85,13 +85,15 @@ func main() {
 The above example would return the following response on `/`:
 ```json
 {
-  "hello_url": "/hello/:name",
-  "user_logout_url": "/user/logout"
+  "GET": {
+    "hello_url": "/hello/:name"
+    "user_logout_url": "/user/logout"
+  },
+  "POST": {
+    "user_login_url": "/login"
+  }
 }
 ```
-
-**Note:** Indices are only supported for `GET` requests. Open an issue, if you
-want them on other methods, too
 
 ### Middleware
 You can easily include any middleware you like. A great guide to middleware
