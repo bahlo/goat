@@ -1,3 +1,8 @@
+## :warning: DEPRECATED :warning:
+This project is no longer maintained, please use something like [gorilla/mux](https://github.com/gorilla/mux) or [echo](https://github.com/labstack/echo).
+
+----
+
 # Goat [![GoDoc](https://godoc.org/github.com/bahlo/goat?status.svg)](https://godoc.org/github.com/bahlo/goat) [![Build Status](https://secure.travis-ci.org/bahlo/goat.svg?branch=master)](https://travis-ci.org/bahlo/goat) [![Coverage Status](https://coveralls.io/repos/bahlo/goat/badge.svg?branch=master)](https://coveralls.io/r/bahlo/goat?branch=master)
 
 Goat is a minimalistic REST API server in Go. You can pronounce it like the
