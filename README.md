@@ -15,7 +15,7 @@ _goat_, or _go-at_. Depends on how you like goats.
   - [Indices](#indices)
   - [Middleware](#middleware)
 - [Philosophy](#philosophy)
-- [Fedback](#feedback)
+- [Feedback](#feedback)
 - [Credits](#credits)
 - [License](#license)
 
