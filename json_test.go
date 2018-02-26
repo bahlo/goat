@@ -21,12 +21,19 @@ func TestWriteError(t *testing.T) {
 	w := httptest.NewRecorder()
 	WriteError(w, code, err)
 
-	// Test code
+	// Test Code
 	if w.Code != code {
 		t.Errorf("WriteError should set Code to %i, but did set it to %i", code, w.Code)
 	}
 
-	// Test body
+	// Test Header
+	expectedContentTypeHeader := "application/json; charset=utf-8"
+	contentTypeHeader := w.Header().Get("Content-Type")
+	if contentTypeHeader != expectedContentTypeHeader {
+		t.Errorf("WriteError should set Content-Type header to %s, but did set it to %s", expectedContentTypeHeader, contentTypeHeader)
+	}
+
+	// Test Body
 	if w.Body == nil {
 		t.Errorf("WriteError should set Body to %s, but didn't", json)
 	} else if string(w.Body.Bytes()) == string(buf.Bytes()) {
@@ -49,13 +56,21 @@ func TestWriteJSON(t *testing.T) {
 	w := httptest.NewRecorder()
 	WriteJSON(w, in)
 
+	// Test Body
 	if w.Body == nil {
 		t.Errorf("WriteJSON should set the Body to %s, but didn't", json)
 	} else if string(w.Body.Bytes()) == string(buf.Bytes()) {
 		t.Errorf("WriteJSON set the Body to %v, but should set it to %v", buf, w.Body)
 	}
 
-	// Test error
+	// Test Header
+	expectedContentTypeHeader := "application/json; charset=utf-8"
+	contentTypeHeader := w.Header().Get("Content-Type")
+	if contentTypeHeader != expectedContentTypeHeader {
+		t.Errorf("WriteJSON should set Content-Type header to %s, but did set it to %s", expectedContentTypeHeader, contentTypeHeader)
+	}
+
+	// Test Error
 	w = httptest.NewRecorder()
 	if err := WriteJSON(w, WriteJSON); err == nil {
 		t.Errorf("WriteJSON should return an error, but didn't")
@@ -79,12 +94,19 @@ func TestWriteJSONWithStatus(t *testing.T) {
 	w := httptest.NewRecorder()
 	WriteJSONWithStatus(w, code, in)
 
-	// test code
+	// Test Code
 	if w.Code != code {
 		t.Errorf("WriteJSONWithStatus should set Code to %i, but did set it to %i", code, w.Code)
 	}
 
-	// test body
+	// Test Header
+	expectedContentTypeHeader := "application/json; charset=utf-8"
+	contentTypeHeader := w.Header().Get("Content-Type")
+	if contentTypeHeader != expectedContentTypeHeader {
+		t.Errorf("WriteJSONWithStatus should set Content-Type header to %s, but did set it to %s", expectedContentTypeHeader, contentTypeHeader)
+	}
+
+	// Test Body
 	if w.Body == nil {
 		t.Errorf("WriteJSONWithStatus should set the Body to %s, but didn't", json)
 	} else if string(w.Body.Bytes()) == string(buf.Bytes()) {
