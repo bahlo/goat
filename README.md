@@ -5,8 +5,8 @@ This project is no longer maintained, please use something like [gorilla/mux](ht
 
 # Goat [![GoDoc](https://godoc.org/github.com/bahlo/goat?status.svg)](https://godoc.org/github.com/bahlo/goat) [![Build Status](https://secure.travis-ci.org/bahlo/goat.svg?branch=master)](https://travis-ci.org/bahlo/goat) [![Coverage Status](https://coveralls.io/repos/bahlo/goat/badge.svg?branch=master)](https://coveralls.io/r/bahlo/goat?branch=master)
 
-Goat is a minimalistic REST API server in Go. You can pronounce it like the
-_goat_, or _go-at_. Depends on how you like goats.
+Goat is a minimalistic REST API server in Go. You can pronounce it
+_goat_, or _go-at_. Depends on how much you like goats.
 
 ## Contents
 - [Usage](#usage)
@@ -22,7 +22,7 @@ _goat_, or _go-at_. Depends on how you like goats.
 ## Usage
 ### Parameters
 You can use named parameters and access them through `goat.Params`,
-wich you can treat as any `map[string]string`.
+which you can treat as any `map[string]string`.
 ```go
 package main
 
