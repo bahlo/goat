@@ -17,11 +17,16 @@ func TestIndex(t *testing.T) {
 	sr.Get("/", "sub_url", emptyHandler)
 
 	out := r.Index()
-	expected := map[string]string{
-		"bar_url":     "/bar",
-		"foo_bar_url": "/foo/bar",
-		"sub_url":     "/sub/",
-	}
+	expected := map[string]map[string]string{
+		"GET": {
+			"bar_url": "/bar",
+			"foo_bar_url": "/foo/bar",
+			"sub_url": "/sub/",
+			},
+		"POST": {
+			"foo_url": "/foo",
+			},
+		}
 	if !reflect.DeepEqual(out, expected) {
 		t.Errorf("Index should return %v, but did return %v", expected, out)
 	}
@@ -38,8 +43,13 @@ func TestIndexHandler(t *testing.T) {
 	r.IndexHandler(w, nil, p)
 
 	expected := `{
-  "bar_url": "/bar",
-  "foo_bar_url": "/foo/bar"
+  "GET": {
+    "bar_url": "/bar",
+    "foo_bar_url": "/foo/bar"
+  },
+  "POST": {
+    "foo_url": "/foo"
+  }
 }`
 	body := string(w.Body.Bytes())
 

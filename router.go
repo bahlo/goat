@@ -2,6 +2,7 @@ package goat
 
 import (
 	"net/http"
+	"reflect"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -17,6 +18,9 @@ type Router struct {
 
 	// The index, maps titles to urls
 	index map[string]string
+
+	// The method index, maps methods to titles to urls
+	methodIndex map[string]map[string]string
 
 	// The router
 	router *httprouter.Router
@@ -49,9 +53,16 @@ func (r *Router) addRoute(m, p, t string, fn Handle) {
 	path := r.subPath(p)
 
 	// Add to index
-	if len(t) > 0 && m == "GET" {
+	if len(t) > 0 {
 		// TODO: Display total path including host
 		r.index[t] = path
+		if reflect.DeepEqual(r.methodIndex, reflect.Zero(reflect.TypeOf(r.methodIndex)).Interface()) {
+			r.methodIndex = make(map[string]map[string]string)
+		}
+		if reflect.DeepEqual(r.methodIndex[m], reflect.Zero(reflect.TypeOf(r.methodIndex[m])).Interface()) {
+			r.methodIndex[m] = make(map[string]string)
+		}
+		r.methodIndex[m][t] = path
 	}
 
 	// Wrapper function to bypass the parameter problem

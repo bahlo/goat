@@ -35,6 +35,15 @@ func TestAddRoute(t *testing.T) {
 	if !reflect.DeepEqual(r.index, expected) {
 		t.Errorf("addRoute should modify Router.index to %v, but did modify it to %v", expected, r.index)
 	}
+
+	r.addRoute("POST", "/foo/baz", "foo_baz_url", emptyHandler)
+	expected = map[string]string{
+		"foo_bar_url": "/foo/bar",
+		"foo_baz_url": "/foo/baz",
+	}
+	if !reflect.DeepEqual(r.index, expected) {
+		t.Errorf("addRoute should modify Router.index to %v, but did modify it to %v", expected, r.index)
+	}
 }
 
 func TestSubrouter(t *testing.T) {
